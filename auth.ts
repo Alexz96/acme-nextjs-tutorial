@@ -8,7 +8,7 @@ import bcrypt from "bcrypt";
 
 async function getUser(email: string): Promise<User | undefined> {
   try {
-    const user = await sql<User>`SELECT * from USERS where email=${email}`;
+    const user = await sql<User>`SELECT * from USERS WHERE email=${email}`;
     return user.rows[0];
   } catch (error) {
     console.error("Failed to fetch user:", error);
@@ -32,6 +32,7 @@ export const { auth, signIn, signOut } = NextAuth({
           const passwordsMatch = await bcrypt.compare(password, user.password);
 
           if (passwordsMatch) {
+            console.log('Successfully authenticated user:', user)
             return user;
           }
         }
